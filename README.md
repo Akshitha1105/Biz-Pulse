@@ -55,28 +55,50 @@ User Data → Processing → AI Analysis → Insights → Recommendations
 
 
 +-----------------------------------------------------------+
+
 | BizPulse |
+
 +-----------------------------------------------------------+
+
 | Interface Layer |
+
 | - Dashboard / UI |
 +-----------------------------------------------------------+
+
 | Backend Engine |
+
 | - API (Python / Node) |
+
 | - Data Processing |
+
 +-----------------------------------------------------------+
+
 | AI / Analytics Layer |
+
 | - Pattern Detection |
+
 | - Trend Prediction |
+
 | - Recommendation Engine |
+
 +-----------------------------------------------------------+
+
 | Data Layer |
+
 | - Business Data |
+
 | - External Inputs |
+
 +-----------------------------------------------------------+
+
 | Output Layer |
+
 | - Insights |
+
 | - Alerts |
+
 | - Recommendations |
+
 +-----------------------------------------------------------+
 
 
@@ -111,12 +133,19 @@ User Data → Processing → AI Analysis → Insights → Recommendations
 
 BizPulse/
 ├── backend/ # Core logic & APIs
+
 ├── frontend/ # UI / dashboard
+
 ├── models/ # ML / analytics models
+
 ├── data/ # Sample datasets
+
 ├── utils/ # Helper functions
+
 ├── app.py / server.js # Entry point
+
 ├── requirements.txt
+
 └── README.md
 
 
