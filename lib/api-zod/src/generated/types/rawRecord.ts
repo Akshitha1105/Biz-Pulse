@@ -6,6 +6,9 @@
  * OpenAPI spec version: 0.1.0
  */
 
-export interface HealthStatus {
-  status: string;
+export interface RawRecord {
+  source: string;
+  name: string;
+  pan?: string | null;
+  address?: string | null;
 }

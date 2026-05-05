@@ -1,0 +1,152 @@
+Build a full-stack web prototype called **BizPulse** — an AI-Powered Business Identity and Intelligence Platform for Karnataka, India. This is a hackathon prototype demonstrating a Unified Business Identifier (UBID) system.
+
+---
+
+## WHAT TO BUILD
+
+A multi-view React + Node.js application with mock data that demonstrates the full BizPulse concept end-to-end. Use React (Vite) for frontend and Node.js/Express for backend. Use in-memory mock data — no real database needed.
+
+---
+
+## CORE CONCEPT
+
+BizPulse solves the problem of fragmented business registrations across Karnataka government departments (GST, Udyam, Municipal licences, MSME registry). It assigns a **UBID (Unified Business Identifier)** — like Aadhaar for businesses — and uses AI entity resolution to match businesses across databases.
+
+---
+
+## PAGES / VIEWS TO BUILD
+
+### 1. Landing Page (`/`)
+- Hero: "One Identity for Every Business in Karnataka"
+- Show the pain point story: a Hubli businesswoman visiting 3 offices
+- Animated flow showing 4 fragmented databases → UBID → unified view
+- CTA buttons: "Business Owner Login" and "Government Officer Login"
+
+### 2. Entity Resolution Demo (`/resolve`)
+- Show 3 mock businesses that exist across 4 databases with mismatched names:
+  - "Ravi Enterprises Pvt Ltd" / "Ravi Enterprises Private Limited" / "RAVI ENT PVT LTD"
+  - "Meena Textiles" / "M. Textiles" / "Meena Textile Works"
+  - "Hubli Foods Co" / "Hubli Food Company" / "HublifoOds"
+- A button "Run AI Entity Resolution" that animates matching them together with confidence scores (fuzzy match %, PAN cross-reference, address similarity)
+- After resolution, show 3 clean UBIDs generated: KA-2024-BIZ-001, KA-2024-BIZ-002, KA-2024-BIZ-003
+
+### 3. Business Owner Portal (`/owner`)
+- Login as mock user: "Meena Sharma, Meena Textiles, Hubli"
+- Dashboard showing:
+  - UBID card (KA-2024-BIZ-002) with status badge "Active"
+  - Compliance timeline showing status across 4 departments (GST ✅, Udyam ✅, Municipal Licence ⚠️ expiring in 30 days, FSSAI ❌ pending)
+  - Upcoming deadlines calendar widget
+  - Notification bell with 2 alerts: "Municipal Licence expires in 30 days" and "GST filing due next week"
+  - "My Documents" section showing all registrations in one place
+
+### 4. Government Officer Dashboard (`/officer`)
+- Login as mock user: "Rajesh Kumar, Commerce Department, Karnataka"
+- Shows:
+  - Active Intelligence Alerts panel with 3 anomalies:
+    1. "Sudden drop in GST filings in Textile sector, Dharwad district — 23% decline this month"
+    2. "14 businesses in Hubli crossed ₹40L turnover threshold — GST registration required"
+    3. "Cluster of 6 businesses share same registered address — possible shell entities"
+  - Business search: type a name or UBID, get instant 360° business profile
+  - 360° Business Profile for KA-2024-BIZ-002: shows all registrations, compliance history, turnover trend chart, directors, address
+  - Sector analytics: bar chart of compliance rates by district
+
+### 5. 360° Business Profile (`/business/:ubid`)
+- Full profile page for a business
+- Shows: UBID, all linked database IDs (GSTIN, Udyam No, Municipal Licence No), directors, address, compliance score (visual gauge), registration history timeline, turnover trend (line chart), upcoming compliance deadlines
+
+---
+
+## DESIGN REQUIREMENTS
+
+- Color palette: Deep navy (#0A1628) background, electric teal (#00D4B4) as primary accent, white text, amber (#F5A623) for warnings
+- Font: Use Google Fonts — "Syne" for headings, "DM Sans" for body
+- Government-tech aesthetic: authoritative but modern, not bureaucratic
+- Sidebar navigation between views
+- Responsive design
+- Use Recharts or Chart.js for the charts
+- Animated number counters on the landing page (e.g., "4,73,291 businesses unified")
+- Loading states and smooth transitions between views
+
+---
+
+## MOCK DATA TO USE
+
+```js
+const businesses = [
+  {
+    ubid: "KA-2024-BIZ-001",
+    name: "Ravi Enterprises Pvt Ltd",
+    owner: "Ravi Kumar",
+    city: "Bengaluru",
+    sector: "Manufacturing",
+    gstin: "29AABCR1234D1Z5",
+    udyam: "UDYAM-KA-01-0012345",
+    municipalLicence: "BBMp/2022/TL/45231",
+    complianceScore: 87,
+    turnover: [42, 51, 48, 63, 71, 68], // 6 months
+    status: "Active",
+    alerts: []
+  },
+  {
+    ubid: "KA-2024-BIZ-002",
+    name: "Meena Textiles",
+    owner: "Meena Sharma",
+    city: "Hubli",
+    sector: "Textiles",
+    gstin: "29AABCM5678E1Z3",
+    udyam: "UDYAM-KA-10-0067891",
+    municipalLicence: "HMC/2021/SL/8823",
+    complianceScore: 64,
+    turnover: [28, 31, 29, 35, 38, 34],
+    status: "Action Required",
+    alerts: ["Municipal Licence expires in 30 days", "GST filing due next week"]
+  },
+  {
+    ubid: "KA-2024-BIZ-003",
+    name: "Hubli Foods Co",
+    owner: "Suresh Patil",
+    city: "Hubli",
+    sector: "Food & Beverage",
+    gstin: null,
+    udyam: "UDYAM-KA-10-0098234",
+    municipalLicence: "HMC/2023/TL/1102",
+    complianceScore: 41,
+    turnover: [18, 22, 19, 24, 41, 43],
+    status: "Non-Compliant",
+    alerts: ["GST registration required — turnover crossed ₹40L", "FSSAI licence not found"]
+  }
+]
+```
+
+---
+
+## TECH STACK
+
+- Frontend: React + Vite, React Router for navigation, Recharts for charts, Tailwind CSS or plain CSS modules
+- Backend: Node.js + Express serving mock data as REST API endpoints
+- No real database — all mock data in-memory
+- Structure: `/client` for React app, `/server` for Express
+
+---
+
+## API ENDPOINTS TO BUILD
+
+- `GET /api/businesses` — all businesses
+- `GET /api/businesses/:ubid` — single business profile
+- `GET /api/alerts` — active intelligence alerts
+- `POST /api/resolve` — mock entity resolution (takes raw records, returns matched UBIDs with scores)
+- `GET /api/stats` — platform stats (total businesses, compliance rate, alerts count)
+
+---
+
+## KEY INTERACTIONS
+
+1. On `/resolve` page: clicking "Run AI Entity Resolution" should animate a step-by-step matching process (fuzzy name match → PAN check → address verify → UBID assigned) with progress indicators
+2. On officer dashboard: business search should filter in real-time as you type
+3. Compliance score should be shown as an animated circular gauge
+4. Alert cards should be dismissible
+5. The UBID card should look like a physical card (like Aadhaar) with the Karnataka government logo placeholder
+
+---
+
+Build this as a complete, working prototype. Prioritize the visual demo quality and smooth UX. Every page should have real mock data populating it — no placeholder "lorem ipsum" content. The goal is to demonstrate the concept convincingly in a hackathon setting.

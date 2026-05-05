@@ -6,6 +6,9 @@
  * OpenAPI spec version: 0.1.0
  */
 
-export interface HealthStatus {
-  status: string;
-}
+export type ListBusinessesParams = {
+  sector?: string;
+  city?: string;
+  status?: string;
+  search?: string;
+};
