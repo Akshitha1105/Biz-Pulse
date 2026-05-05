@@ -2,26 +2,42 @@
 
 ## Overview
 
-pnpm workspace monorepo using TypeScript. Each package manages its own dependencies.
+pnpm workspace monorepo (TypeScript) + Python Streamlit app for BizPulse.
 
-## Stack
+## Projects
 
+### BizPulse Python (Primary — Streamlit)
+- **Location**: `artifacts/bizpulse-python/`
+- **Run**: `BizPulse Python` workflow (port 5000)
+- **Stack**: Python 3.11, Streamlit, Plotly, Pandas, NumPy, RapidFuzz, NetworkX
+- **Pages**: Platform Overview, Entity Resolution Engine, Business Directory, Officer Dashboard, Business Owner Portal
+- **Engine modules**: `engine/entity_resolution.py`, `engine/anomaly_detection.py`
+- **Mock data**: `data/mock_data.py`
+
+### BizPulse React (Secondary — full-stack)
+- **Location**: `artifacts/bizpulse/`
+- **Stack**: React + Vite + Express API
+
+### API Server
+- **Location**: `artifacts/api-server/`
+- **Routes**: /api/businesses, /api/alerts, /api/resolve, /api/stats, /api/sector-analytics
+
+## Python Stack (BizPulse)
+- **UI**: Streamlit
+- **Charts**: Plotly
+- **Entity Resolution**: RapidFuzz (fuzzy matching + PAN cross-reference)
+- **Anomaly Detection**: NumPy/Pandas z-score time-series analysis
+- **Data**: In-memory mock data (simulates federated Karnataka govt databases)
+
+## Node/TypeScript Stack
 - **Monorepo tool**: pnpm workspaces
 - **Node.js version**: 24
-- **Package manager**: pnpm
 - **TypeScript version**: 5.9
 - **API framework**: Express 5
-- **Database**: PostgreSQL + Drizzle ORM
 - **Validation**: Zod (`zod/v4`), `drizzle-zod`
 - **API codegen**: Orval (from OpenAPI spec)
-- **Build**: esbuild (CJS bundle)
 
 ## Key Commands
-
 - `pnpm run typecheck` — full typecheck across all packages
-- `pnpm run build` — typecheck + build all packages
-- `pnpm --filter @workspace/api-spec run codegen` — regenerate API hooks and Zod schemas from OpenAPI spec
+- `pnpm --filter @workspace/api-spec run codegen` — regenerate API hooks/Zod schemas
 - `pnpm --filter @workspace/db run push` — push DB schema changes (dev only)
-- `pnpm --filter @workspace/api-server run dev` — run API server locally
-
-See the `pnpm-workspace` skill for workspace structure, TypeScript setup, and package details.
