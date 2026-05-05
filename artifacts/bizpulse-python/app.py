@@ -75,7 +75,7 @@ with st.sidebar:
 
     st.markdown("""
     <div style="font-size: 11px; color: #555; text-align: center;">
-        Hackathon Prototype · May 2025<br>
+        Hackathon Prototype · May 2026<br>
         Government of Karnataka
     </div>
     """, unsafe_allow_html=True)
