@@ -94,78 +94,35 @@ def render_turnover_chart(business: dict):
 
 
 def render_ubid_card(business: dict):
-    """Render a styled UBID identity card."""
-    status_color = {"Active": "#00D4B4", "Action Required": "#F5A623", "Non-Compliant": "#d62728"}
-    color = status_color.get(business["status"], "#00D4B4")
+    """Render a UBID identity card using pure Streamlit components."""
+    status_icons = {"Active": "🟢", "Action Required": "🟡", "Non-Compliant": "🔴"}
+    icon = status_icons.get(business["status"], "⚪")
 
-    st.markdown(f"""
-    <div style="
-        background: linear-gradient(135deg, #0A1628 0%, #0F2D50 60%, #0A1628 100%);
-        border: 2px solid {color};
-        border-radius: 12px;
-        padding: 24px 28px;
-        font-family: 'Courier New', monospace;
-        position: relative;
-        box-shadow: 0 4px 24px rgba(0,212,180,0.15);
-    ">
-        <div style="display: flex; justify-content: space-between; align-items: flex-start;">
-            <div>
-                <div style="color: #888; font-size: 11px; letter-spacing: 3px; text-transform: uppercase;">
-                    Government of Karnataka
-                </div>
-                <div style="color: {color}; font-size: 13px; font-weight: bold; margin-top: 2px; letter-spacing: 2px;">
-                    BizPulse · Unified Business Identifier
-                </div>
-            </div>
-            <div style="
-                background: {color};
-                color: #0A1628;
-                padding: 4px 10px;
-                border-radius: 20px;
-                font-size: 11px;
-                font-weight: bold;
-                letter-spacing: 1px;
-            ">{business['status'].upper()}</div>
-        </div>
+    with st.container(border=True):
+        col_title, col_badge = st.columns([4, 1])
+        with col_title:
+            st.caption("GOVERNMENT OF KARNATAKA  ·  BizPulse Unified Business Identifier")
+        with col_badge:
+            st.markdown(f"**{icon} {business['status']}**")
 
-        <div style="margin-top: 20px;">
-            <div style="color: #aaa; font-size: 10px; letter-spacing: 2px;">UBID</div>
-            <div style="color: {color}; font-size: 26px; font-weight: bold; letter-spacing: 4px;">
-                {business['ubid']}
-            </div>
-        </div>
+        st.markdown(f"### `{business['ubid']}`")
+        st.divider()
 
-        <div style="margin-top: 16px; display: flex; gap: 40px;">
-            <div>
-                <div style="color: #888; font-size: 10px; letter-spacing: 1px;">BUSINESS NAME</div>
-                <div style="color: white; font-size: 15px; font-weight: bold;">{business['name']}</div>
-            </div>
-            <div>
-                <div style="color: #888; font-size: 10px; letter-spacing: 1px;">OWNER</div>
-                <div style="color: white; font-size: 15px;">{business['owner']}</div>
-            </div>
-        </div>
+        col1, col2 = st.columns(2)
+        with col1:
+            st.markdown(f"**Business Name**  \n{business['name']}")
+        with col2:
+            st.markdown(f"**Owner**  \n{business['owner']}")
 
-        <div style="margin-top: 12px; display: flex; gap: 40px;">
-            <div>
-                <div style="color: #888; font-size: 10px;">SECTOR</div>
-                <div style="color: #ccc; font-size: 13px;">{business['sector']}</div>
-            </div>
-            <div>
-                <div style="color: #888; font-size: 10px;">CITY</div>
-                <div style="color: #ccc; font-size: 13px;">{business['city']}</div>
-            </div>
-            <div>
-                <div style="color: #888; font-size: 10px;">REGISTERED</div>
-                <div style="color: #ccc; font-size: 13px;">{business['registration_date']}</div>
-            </div>
-            <div>
-                <div style="color: #888; font-size: 10px;">EMPLOYEES</div>
-                <div style="color: #ccc; font-size: 13px;">{business.get('employees', 'N/A')}</div>
-            </div>
-        </div>
-    </div>
-    """, unsafe_allow_html=True)
+        col3, col4, col5, col6 = st.columns(4)
+        with col3:
+            st.markdown(f"**Sector**  \n{business['sector']}")
+        with col4:
+            st.markdown(f"**City**  \n{business['city']}")
+        with col5:
+            st.markdown(f"**Registered**  \n{business['registration_date']}")
+        with col6:
+            st.markdown(f"**Employees**  \n{business.get('employees', 'N/A')}")
 
 
 def render():

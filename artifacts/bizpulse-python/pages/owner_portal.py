@@ -20,52 +20,32 @@ COMPLIANCE_ICONS = {
 
 
 def render_owner_ubid_card(business: dict):
-    status_color = {"Active": "#00D4B4", "Action Required": "#F5A623", "Non-Compliant": "#d62728"}
-    color = status_color.get(business["status"], "#00D4B4")
-    st.markdown(f"""
-    <div style="
-        background: linear-gradient(135deg, #0A1628 0%, #0F2D50 60%, #0A1628 100%);
-        border: 2px solid {color};
-        border-radius: 12px;
-        padding: 22px 26px;
-        font-family: 'Courier New', monospace;
-        box-shadow: 0 4px 24px rgba(0,212,180,0.15);
-        max-width: 600px;
-    ">
-        <div style="display:flex;justify-content:space-between;align-items:flex-start">
-            <div>
-                <div style="color:#888;font-size:10px;letter-spacing:3px">GOVERNMENT OF KARNATAKA</div>
-                <div style="color:{color};font-size:11px;font-weight:bold;letter-spacing:2px;margin-top:2px">
-                    BizPulse · Unified Business Identifier Card
-                </div>
-            </div>
-            <div style="background:{color};color:#0A1628;padding:3px 10px;border-radius:20px;font-size:11px;font-weight:bold">
-                {business['status'].upper()}
-            </div>
-        </div>
-        <div style="margin-top:16px">
-            <div style="color:#888;font-size:9px;letter-spacing:2px">UBID</div>
-            <div style="color:{color};font-size:24px;font-weight:bold;letter-spacing:4px">
-                {business['ubid']}
-            </div>
-        </div>
-        <div style="margin-top:14px;display:flex;gap:36px">
-            <div>
-                <div style="color:#888;font-size:9px">BUSINESS</div>
-                <div style="color:white;font-size:14px;font-weight:bold">{business['name']}</div>
-            </div>
-            <div>
-                <div style="color:#888;font-size:9px">OWNER</div>
-                <div style="color:white;font-size:13px">{business['owner']}</div>
-            </div>
-        </div>
-        <div style="margin-top:10px;display:flex;gap:36px">
-            <div><div style="color:#888;font-size:9px">CITY</div><div style="color:#ccc;font-size:12px">{business['city']}</div></div>
-            <div><div style="color:#888;font-size:9px">SECTOR</div><div style="color:#ccc;font-size:12px">{business['sector']}</div></div>
-            <div><div style="color:#888;font-size:9px">SINCE</div><div style="color:#ccc;font-size:12px">{business['registration_date']}</div></div>
-        </div>
-    </div>
-    """, unsafe_allow_html=True)
+    status_icons = {"Active": "🟢", "Action Required": "🟡", "Non-Compliant": "🔴"}
+    icon = status_icons.get(business["status"], "⚪")
+
+    with st.container(border=True):
+        col_title, col_badge = st.columns([4, 1])
+        with col_title:
+            st.caption("GOVERNMENT OF KARNATAKA  ·  BizPulse Unified Business Identifier Card")
+        with col_badge:
+            st.markdown(f"**{icon} {business['status']}**")
+
+        st.markdown(f"### `{business['ubid']}`")
+        st.divider()
+
+        col1, col2 = st.columns(2)
+        with col1:
+            st.markdown(f"**Business**  \n{business['name']}")
+        with col2:
+            st.markdown(f"**Owner**  \n{business['owner']}")
+
+        col3, col4, col5 = st.columns(3)
+        with col3:
+            st.markdown(f"**City**  \n{business['city']}")
+        with col4:
+            st.markdown(f"**Sector**  \n{business['sector']}")
+        with col5:
+            st.markdown(f"**Registered Since**  \n{business['registration_date']}")
 
 
 def render():
